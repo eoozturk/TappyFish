@@ -20,14 +20,16 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime;
-        if(timer >= maxTime)
+        if(GameManager.gameOver == false)
         {
-            randPosY = Random.Range(minY, maxY);
-            InstantiateObstacle();
-            timer = 0;
+            timer += Time.deltaTime;
+            if (timer >= maxTime)
+            {
+                randPosY = Random.Range(minY, maxY);
+                InstantiateObstacle();
+                timer = 0;
+            }
         }
-        
     }
 
     void InstantiateObstacle()
