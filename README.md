@@ -1,7 +1,12 @@
 # Tappy Fish
  
- * Character Control
+ * Medal System
+ * Audio Source
  * Spawn Manager
- * UI Design
- * Score and Best Score
+ * Canvas UI Design
+ * Character Control
+ * Score & Best Score
+ * Animation & Animator
+ * PlayerPrefs: Get & Set Operations
+
  
