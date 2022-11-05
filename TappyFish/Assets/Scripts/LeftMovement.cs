@@ -7,18 +7,19 @@ public class LeftMovement : MonoBehaviour
     private float speed, groundWidth, obsWidth;
 
     BoxCollider2D groundBox;
+
     // Start is called before the first frame update
     void Start()
     {
-        speed = 3.0f;
-
         if (gameObject.CompareTag("Ground"))
         {
+            speed = 3.0f;
             groundBox = GetComponent<BoxCollider2D>();
             groundWidth = groundBox.size.x;
         }
         else if (gameObject.CompareTag("Obstacle"))
         {
+            speed = 2.5f;
             obsWidth = GameObject.FindGameObjectWithTag("Column").GetComponent<BoxCollider2D>().size.x;
         }
     }
@@ -40,7 +41,7 @@ public class LeftMovement : MonoBehaviour
         }
         else if (gameObject.CompareTag("Obstacle"))
         {
-            if (transform.position.x < GameManager.bottomLeft.x -  obsWidth)
+            if (transform.position.x < GameManager.bottomLeft.x - obsWidth)
             {
                 Destroy(gameObject);
             }

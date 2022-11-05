@@ -14,13 +14,13 @@ public class SpawnManager : MonoBehaviour
         maxTime = 3.5f;
         minY = -2.25f;
         maxY = 0.5f;
-        InstantiateObstacle();
+        //InstantiateObstacle();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(GameManager.gameOver == false)
+        if(GameManager.gameOver == false && GameManager.gameStarted == true)
         {
             timer += Time.deltaTime;
             if (timer >= maxTime)
@@ -32,10 +32,9 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    void InstantiateObstacle()
+    public void InstantiateObstacle()
     {
         GameObject newObstacle = Instantiate(obstacle);
         newObstacle.transform.position = new Vector2(transform.position.x, randPosY);
-
     }
 }

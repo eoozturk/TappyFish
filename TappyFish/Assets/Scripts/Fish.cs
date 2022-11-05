@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Fish : MonoBehaviour
 {
-
     public int angle;
     bool groundConrol;
     public int minAngle = -20;
@@ -13,16 +12,22 @@ public class Fish : MonoBehaviour
     [SerializeField]
     private float speed;
 
+    Animator anim;
     Rigidbody2D rb;
     public Score score;
-    public Animator anim;
     public GameManager gameManager;
+    public SpawnManager spawnManager;
+
+    [SerializeField]
+    private AudioSource swim, hit, point;
+
     // Start is called before the first frame update
     void Start()
     {
-        speed = 8.0f;
+        speed = 10f;
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = 0;
     }
 
     // Update is called once per frame
@@ -38,13 +43,22 @@ public class Fish : MonoBehaviour
 
     void FishSwim()
     {
-        if(GameManager.gameOver == false)
+        if(Input.GetKeyDown(KeyCode.Space) && GameManager.gameOver == false)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (GameManager.gameStarted == false)
+            {
+                rb.gravityScale = 3f;
+                rb.velocity = Vector2.zero;
+                gameManager.GameHasStarted();
+                spawnManager.InstantiateObstacle();
+                rb.velocity = new Vector2(rb.velocity.x, speed);
+            }
+            else
             {
                 rb.velocity = Vector2.zero;
                 rb.velocity = new Vector2(rb.velocity.x, speed);
             }
+            swim.Play();
         }
     }
 
@@ -61,7 +75,7 @@ public class Fish : MonoBehaviour
         {
             if (angle > minAngle)
             {
-                angle = angle - 2;
+                angle = angle - 8;
             }
         }
 
@@ -79,11 +93,13 @@ public class Fish : MonoBehaviour
     {
         if (collision.CompareTag("Obstacle"))
         {
+            point.Play();
             score.updateScore();
         }
-        else if (collision.CompareTag("Column"))
+        else if (collision.CompareTag("Column") && GameManager.gameOver == false)
         {
             FishDie();
+            hit.Play();
             gameManager.GameOver();
         }
     }
@@ -95,6 +111,7 @@ public class Fish : MonoBehaviour
             if(GameManager.gameOver == false)
             {
                 FishDie();
+                hit.Play();
                 gameManager.GameOver();
             }
         }
